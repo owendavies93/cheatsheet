@@ -1,6 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
-DAY=$(date '+%d')
+if [[ -n $1 ]]; then
+    DAY=$1
+else
+    DAY=$(date '+%d')
+fi
+
+if [[ -n $2 ]]; then
+    YEAR=$2
+fi
+
+if [[ ! -d bin ]]; then
+    echo 'No bin directory!'
+    exit
+fi
 
 for i in 1 2
 do
@@ -18,4 +31,14 @@ EOF
 chmod +x bin/day$DAY-$i.pl
 done
 
-aocdl -day $DAY
+if [[ ! -d input ]]; then
+    echo 'No input directory!'
+    exit
+fi
+
+if [[ -n $YEAR ]]; then
+    aocdl -year $YEAR -day $DAY
+else
+    aocdl -day $DAY
+fi
+
