@@ -38,7 +38,9 @@ chomp($line);
 Read from a file handle:
 
 ```perl
-
+my $file = "input";
+open(my $fh, '<', $file) or die $!;
+while (<$fh>) { ... }
 ```
 
 ### Output
@@ -81,7 +83,7 @@ sprintf("%08b", $decimal_number); # '00001001'
 - `min`
 - `sum`
 - `product`
-- 'pairs'
+- `pairs`
 
 These are all obvious, perhaps apart from `pairs`:
 
@@ -106,6 +108,7 @@ while (my @group = $it->()) { ... }
 `Algorithm::Combinatorics` has `permutations` and `combinations`.
 
 ### Data Structures
+TODO
 
 ### Common Algorithms
-
+TODO
