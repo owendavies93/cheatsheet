@@ -75,7 +75,7 @@ sprintf("%08b", $decimal_number); # '00001001'
 
 #### Lists
 
-`List::AllUtils` has nearly everything you ever need:
+[`List::AllUtils`](https://metacpan.org/pod/List::AllUtils) has nearly everything you ever need:
 - `any`
 - `all`
 - `first`
@@ -94,7 +94,7 @@ for my $pair (pairs @arr) {
 }
 ```
 
-The only thing that I ever use in `List::MoreUtils` is `natatime`:
+The only thing that I ever use in [`List::MoreUtils`](https://metacpan.org/pod/List::MoreUtils) is `natatime`:
 
 ```
 @arr = (1, 2, 3, 4);
@@ -103,9 +103,9 @@ $it = natatime $n, @arr;
 while (my @group = $it->()) { ... }
 ```
 
-`List::Flatten` has `flat` which turns a 2D list into a 1D list.
+[`List::Flatten`](https://metacpan.org/pod/List::Flatten) has `flat` which turns a 2D list into a 1D list.
 
-`Algorithm::Combinatorics` has `permutations` and `combinations`.
+[`Algorithm::Combinatorics`](https://metacpan.org/pod/Algorithm::Combinatorics) has `permutations` and `combinations`. Returns an iterator in scalar context, and all results in list context (prefer scalar context if you need to do something with each result, it's quicker).
 
 ### Data Structures
 TODO
