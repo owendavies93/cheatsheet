@@ -1,0 +1,21 @@
+#!/bin/sh
+
+DAY=$(date '+%d')
+
+for i in 1 2
+do
+    cat <<EOF > "bin/day$DAY-$i.pl"
+#!/usr/bin/env perl
+use Mojo::Base -strict;
+
+my \$file = defined \$ARGV[0] ? \$ARGV[0] : 'inputs/day$DAY';
+\$file = "inputs/day$DAY-\$file" if \$file =~ /test/;
+open(my \$fh, '<', \$file) or die \$!;
+while (<\$fh>) {
+    chomp;
+}
+EOF
+chmod +x bin/day$DAY-$i.pl
+done
+
+aocdl -day $DAY
