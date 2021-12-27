@@ -108,7 +108,37 @@ while (my @group = $it->()) { ... }
 [`Algorithm::Combinatorics`](https://metacpan.org/pod/Algorithm::Combinatorics) has `permutations` and `combinations`. Returns an iterator in scalar context, and all results in list context (prefer scalar context if you need to do something with each result, it's quicker).
 
 ### Data Structures
-TODO
+
+#### Grids
+
+If it's dense, use a 1D array:
+
+```perl
+@grid = ();
+while (<>) {
+    chomp;
+    my @line = split //;
+    push @grid, @line;
+}
+
+$val = $grid[$y * $width + $x];
+```
+
+See [2021 Day 11](https://github.com/sirgraystar/advent2021/blob/main/bin/day11-1.pl) for a larger example.
+
+If it's sparse and binary, use a hash to set coordinates.
+
+```perl
+$grid = {};
+$grid->{$x, $y} = 1; # $; is the key separator
+$val = $grid->{$x, $y};
+
+for my $k (keys %$grid) {
+    my ($x, $y) = split $;, $k;
+}
+```
+
+See [2021 Day 25](https://github.com/sirgraystar/advent2021/blob/main/bin/day25.pl) for a sparse ternary example.
 
 ### Common Algorithms
 TODO
