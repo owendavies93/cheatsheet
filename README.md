@@ -140,5 +140,17 @@ for my $k (keys %$grid) {
 
 See [2021 Day 25](https://github.com/sirgraystar/advent2021/blob/main/bin/day25.pl) for a sparse ternary example.
 
+### Performance
+
+#### Memoisation
+
+Use [`Memoize`](https://perldoc.perl.org/Memoize) for dynamic-programming esque problems with slow recursion.
+
+```perl
+use Memoize;
+memoize('slow_function');
+slow_function(arguments); 
+```
+
 ### Common Algorithms
 TODO
