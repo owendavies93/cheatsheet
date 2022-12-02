@@ -107,6 +107,17 @@ while (my @group = $it->()) { ... }
 
 [`Algorithm::Combinatorics`](https://metacpan.org/pod/Algorithm::Combinatorics) has `permutations` and `combinations`. Returns an iterator in scalar context, and all results in list context (prefer scalar context if you need to do something with each result, it's quicker).
 
+#### Slices
+
+```
+@a = (1, 2, 3, 4);
+@slice = @a[0..2]; # (1, 2, 3)
+
+$r = [1, 2, 3, 4];
+@slice = @$r[0..2]; # (1, 2, 3)
+$slice_ref = [ @$r[0..2] ]; # [1, 2, 3]
+```
+
 ### Data Structures
 
 #### Grids
