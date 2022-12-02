@@ -3,7 +3,7 @@
 if [[ -n $1 ]]; then
     DAY=$1
 else
-    DAY=$(date '+%d')
+    DAY=$(date '+%-d')
 fi
 
 if [[ -n $2 ]]; then
