@@ -21,6 +21,10 @@ do
 #!/usr/bin/env perl
 use Mojo::Base -strict;
 
+use Array::Utils qw(:all);
+use List::AllUtils qw(:all);
+use Memoize;
+
 my \$file = defined \$ARGV[0] ? \$ARGV[0] : 'inputs/day$DAY';
 \$file = "inputs/day$DAY-\$file" if \$file =~ /test/;
 open(my \$fh, '<', \$file) or die \$!;
