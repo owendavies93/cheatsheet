@@ -211,6 +211,8 @@ for my $k (keys %$grid) {
 
 See [2021 Day 25](https://github.com/sirgraystar/advent2021/blob/main/bin/day25.pl) for a sparse ternary example.
 
+There's a generic implementation of this in [Advent::Grid::Sparse](https://github.com/sirgraystar/cheatsheet/blob/main/lib/Advent/Grid/Sparse.pm).Often it won't be suitable due to problems requiring generic manipulation of values within the grid, but it works for Cellula Automata type problems and problems where you simply need to track a set of points.
+
 ## Performance
 
 ### Memoisation
