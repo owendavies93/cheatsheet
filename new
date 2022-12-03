@@ -21,6 +21,8 @@ do
 #!/usr/bin/env perl
 use Mojo::Base -strict;
 
+use lib "../cheatsheet/lib";
+
 use Array::Utils qw(:all);
 use List::AllUtils qw(:all);
 use Memoize;
