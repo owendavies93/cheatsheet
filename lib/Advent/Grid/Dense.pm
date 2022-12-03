@@ -33,6 +33,18 @@ sub edge_list {
     return $edges;
 }
 
+# get a value in the grid at an index
+sub get_at_index {
+    my ($self, $index) = @_;
+    return $self->{grid}->[$index];
+}
+
+# increment the value in the grid at an index
+sub inc_at_index {
+    my ($self, $index) = @_;
+    $self->set_at_index($index, $self->get_at_index($index) + 1)
+}
+
 # return in bounds neighbours given an x, y coordinate
 sub neighbours {
     my ($self, $x, $y) = @_;
@@ -42,6 +54,12 @@ sub neighbours {
 # return in bounds neighbors from an index
 sub neighbours_from_index {
     croak "Not implemented!";
+}
+
+# set the value in the grid at an index
+sub set_at_index {
+    my ($self, $index, $value) = @_;
+    $self->{grid}->[$index] = $value;
 }
 
 1;
