@@ -51,7 +51,13 @@ sub neighbours {
     return $self->neighbour_from_index($y * $self->{width} + $x);
 }
 
-# return in bounds neighbors from an index
+# return the values of the in bound neighbours from an index
+sub neighbour_vals_from_index {
+    my ($self, $index) = @_;
+    return map { $self->get_at_index($_) } $self->neighbours_from_index($index);
+}
+
+# return in bounds neighbours from an index
 sub neighbours_from_index {
     croak "Not implemented!";
 }
