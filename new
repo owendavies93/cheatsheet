@@ -31,7 +31,7 @@ EOF
 chmod +x bin/day$DAY-$i.pl
 done
 
-if [[ ! -d input ]]; then
+if [[ ! -d inputs ]]; then
     echo 'No input directory!'
     exit
 fi
