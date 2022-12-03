@@ -96,14 +96,14 @@ sprintf("%08b", $decimal_number); # '00001001'
 
 Use `ord` and `chr` to go between characters and ascii codes:
 
-```
+```perl
 ord('a') # 97
 chr(97) # 'a'
 ```
 
 **Remember**: use `>` and `<` for `ord` and use `lt` and `gt` for `chr`:
 
-```
+```perl
 chr(97) gt 'Z' # true, 'a' gt 'Z'
 chr(97) > 'Z'  # undef, and warns
 
@@ -127,7 +127,7 @@ chr(97) > 'Z'  # undef, and warns
 
 These are all obvious, perhaps apart from `pairs`:
 
-```
+```perl
 @arr = (1, 2, 3, 4); # or ( 1 => 2, 3 => 4 )
 for my $pair (pairs @arr) {
     my ($a, $b) = @$pair;
@@ -136,7 +136,7 @@ for my $pair (pairs @arr) {
 
 The only thing that I ever use in [`List::MoreUtils`](https://metacpan.org/pod/List::MoreUtils) is `natatime`:
 
-```
+```perl
 @arr = (1, 2, 3, 4);
 $n = 2;
 $it = natatime $n, @arr;
@@ -157,7 +157,7 @@ while (my @group = $it->()) { ... }
 
 Get a subsection of a list.
 
-```
+```perl
 @a = (1, 2, 3, 4);
 @slice = @a[0..2]; # (1, 2, 3)
 
@@ -170,7 +170,7 @@ $slice_ref = [ @$r[0..2] ]; # [1, 2, 3]
 
 Slices are often useful combined with `sort`, for "top n"-type operations:
 
-```
+```perl
 @a = (3, 2, 4, 1);
 @sorted = sort { $b <=> $a } @a;
 @top3 = @sorted[0..2];
