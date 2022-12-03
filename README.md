@@ -1,9 +1,26 @@
-## Perl CheatSheet
+# Perl CheatSheet
 
 Primarily used by me as a reference when trying to solve [Advent of Code](https://adventofcode.com/) problems quickly,
 but also generally useful stuff for [Perl 5](https://www.perl.org/) development.
 
-### Version
+## Table of Contents
+  * [Version](#version)
+  * [Input](#input)
+  * [Output](#output)
+  * [Non-Decimal Data](#non-decimal-data)
+    + [Hexadecimal](#hexadecimal)
+    + [Binary](#binary)
+  * [Data Manipulation](#data-manipulation)
+    + [Lists](#lists)
+      - [Slices](#slices)
+      - [Sorting](#sorting)
+  * [Data Structures](#data-structures)
+    + [Grids](#grids)
+  * [Performance](#performance)
+    + [Memoisation](#memoisation)
+  * [Common Algorithms](#common-algorithms)
+
+## Version
 
 `use Mojo::Base -strict;` gives you:
 
@@ -17,7 +34,7 @@ use mro;
 
 5.16 is enough for most things, unless you want sub signatures.
 
-### Input
+## Input
 
 Read STDIN line by line:
 
@@ -43,13 +60,13 @@ open(my $fh, '<', $file) or die $!;
 while (<$fh>) { ... }
 ```
 
-### Output
+## Output
 
 Prefer `say` to `print` (adds a newline, fewer characters!).
 
-### Non-Decimal Data
+## Non-Decimal Data
 
-#### Hexadecimal
+### Hexadecimal
 
 ```perl
 $hex_string = 'E2';
@@ -60,7 +77,7 @@ sprintf("%x", $decimal_number);   # 'e2'
 sprintf("%04x", $decimal_number); # '00e2'
 ```
 
-#### Binary
+### Binary
 
 ```perl
 $binary_string = '1001';
@@ -71,9 +88,9 @@ sprintf("%b", $decimal_number);   # '1001'
 sprintf("%08b", $decimal_number); # '00001001'
 ```
 
-### Data Manipulation
+## Data Manipulation
 
-#### Lists
+### Lists
 
 [`List::AllUtils`](https://metacpan.org/pod/List::AllUtils) has nearly everything you ever need:
 - `any`
@@ -136,9 +153,9 @@ Slices are often useful combined with `sort`, for "top n"-type operations:
 @top3 = @sorted[0..2];
 ```
 
-### Data Structures
+## Data Structures
 
-#### Grids
+### Grids
 
 If it's dense, use a 1D array:
 
@@ -169,9 +186,9 @@ for my $k (keys %$grid) {
 
 See [2021 Day 25](https://github.com/sirgraystar/advent2021/blob/main/bin/day25.pl) for a sparse ternary example.
 
-### Performance
+## Performance
 
-#### Memoisation
+### Memoisation
 
 Use [`Memoize`](https://perldoc.perl.org/Memoize) for dynamic-programming esque problems with slow recursion.
 
@@ -181,5 +198,5 @@ memoize('slow_function');
 slow_function(arguments); 
 ```
 
-### Common Algorithms
+## Common Algorithms
 TODO
