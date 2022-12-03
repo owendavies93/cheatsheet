@@ -103,6 +103,12 @@ $it = natatime $n, @arr;
 while (my @group = $it->()) { ... }
 ```
 
+[`Array::Utils`](https://metacpan.org/pod/Array::Utils) has useful set operations:
+- `intersect` - intersection
+- `unique` - this is unique union
+- `array_diff` - symmetric difference
+- `array_minus(@a, @b)` - keep things that are in `@a` but not in `@b`
+
 [`List::Flatten`](https://metacpan.org/pod/List::Flatten) has `flat` which turns a 2D list into a 1D list.
 
 [`Algorithm::Combinatorics`](https://metacpan.org/pod/Algorithm::Combinatorics) has `permutations` and `combinations`. Returns an iterator in scalar context, and all results in list context (prefer scalar context if you need to do something with each result, it's quicker).
