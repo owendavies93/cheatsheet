@@ -1,5 +1,3 @@
-# Perl CheatSheet
-
 Primarily used by me as a reference when trying to solve [Advent of Code](https://adventofcode.com/) problems quickly,
 but also generally useful stuff for [Perl 5](https://www.perl.org/) development.
 
