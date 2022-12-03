@@ -10,6 +10,8 @@ but also generally useful stuff for [Perl 5](https://www.perl.org/) development.
   * [Non-Decimal Data](#non-decimal-data)
     + [Hexadecimal](#hexadecimal)
     + [Binary](#binary)
+  * [Strings](#strings)
+    + [Characters](#characters)
   * [Data Manipulation](#data-manipulation)
     + [Lists](#lists)
       - [Slices](#slices)
@@ -86,6 +88,29 @@ oct('0b' . $binary_string) # 9
 $decimal_number = '9';
 sprintf("%b", $decimal_number);   # '1001'
 sprintf("%08b", $decimal_number); # '00001001'
+```
+
+## Strings
+
+`substr $string $to $from` does substrings, omit the last argument to go to the end.
+
+### Characters
+
+Use `ord` and `chr` to go between characters and ascii codes:
+
+```
+ord('a') # 97
+chr(97) # 'a'
+```
+
+**Remember**: use `>` and `<` for `ord` and use `lt` and `gt` for `chr`:
+
+```
+chr(97) gt 'Z' # true, 'a' gt 'Z'
+chr(97) > 'Z'  # undef, and warns
+
+97 <= ord('d') # true, 97 <= 100
+97 le ord('d') # undef, no warnings
 ```
 
 ## Data Manipulation
