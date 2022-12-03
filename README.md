@@ -195,6 +195,8 @@ $val = $grid[$y * $width + $x];
 
 See [2021 Day 11](https://github.com/sirgraystar/advent2021/blob/main/bin/day11-1.pl) for a larger example.
 
+There's a generic implementation of this in [Advent::Grid::Dense](https://github.com/sirgraystar/cheatsheet/blob/main/lib/Advent/Grid/Dense.pm), for both diagonal and non-diagonal neighbours.
+
 If it's sparse and binary, use a hash to set coordinates.
 
 ```perl
