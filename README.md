@@ -115,6 +115,8 @@ while (my @group = $it->()) { ... }
 
 #### Slices
 
+Get a subsection of a list.
+
 ```
 @a = (1, 2, 3, 4);
 @slice = @a[0..2]; # (1, 2, 3)
@@ -122,6 +124,16 @@ while (my @group = $it->()) { ... }
 $r = [1, 2, 3, 4];
 @slice = @$r[0..2]; # (1, 2, 3)
 $slice_ref = [ @$r[0..2] ]; # [1, 2, 3]
+```
+
+#### Sorting
+
+Slices are often useful combined with `sort`, for "top n"-type operations:
+
+```
+@a = (3, 2, 4, 1);
+@sorted = sort { $b <=> $a } @a;
+@top3 = @sorted[0..2];
 ```
 
 ### Data Structures
