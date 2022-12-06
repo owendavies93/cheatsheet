@@ -21,13 +21,18 @@ sub check_bounds_of_index {
     return ($index >= 0 && $index < scalar @{$self->{grid}});
 }
 
-# get a hashref of all edges, in a to => from format
+# get a hashref of all neighbour connections, in the format:
+# from => { to => weight, to2 => weight2 }
+# if unweighted is passed, just return the connections with
+# all weights set to 1 (which makes path length and path
+# weight the same);
 sub edge_list {
-    my $self = shift;
+    my ($self, $unweighted) = @_;
     my $edges = {};
     for (my $i = 0; $i < scalar @{$self->{grid}}; $i++) {
         for my $n ($self->neighbours_from_index($i)) {
-            $edges->{$i}->{$n} = $self->{grid}->[$n];
+            $edges->{$i}->{$n} =
+                defined $unweighted ? 1 : $self->{grid}->[$n];
         }   
     }
     return $edges;
