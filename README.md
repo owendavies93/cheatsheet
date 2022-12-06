@@ -226,4 +226,20 @@ slow_function(arguments);
 ```
 
 ## Common Algorithms
-TODO
+
+### Dijkstra
+
+[Advent::Dijkstra](https://github.com/sirgraystar/cheatsheet/blob/main/lib/Advent/Dijkstra.pm) implements the shortest path algorithm, and supports path length and total path weight.
+
+```perl
+# opts takes the following options:
+# * start - the start node label
+# * end - the end node label
+# * edge_list - a nested hash, as outputted by Advent::Grid::Dense::edge_list()
+# * regen - don't do any caching
+my $d = Advent::Dijkstra->new;
+$d->get_shortest_path($opts);
+$d->get_shortest_path_length($opts);
+$d->get_total_path_weight($opts);
+```
+
