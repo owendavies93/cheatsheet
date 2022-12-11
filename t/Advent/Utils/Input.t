@@ -7,7 +7,12 @@ use Test::More;
 use_ok 'Advent::Utils::Input';
 require_ok 'Advent::Utils::Input';
 
-use Advent::Utils::Input qw(get_ints);
+use Advent::Utils::Input qw(
+    get_grouped_lines
+    get_ints
+    get_lines
+    get_nonempty_groups
+);
 
 # get_ints
 {
@@ -31,6 +36,54 @@ use Advent::Utils::Input qw(get_ints);
 
     $line = '2-4,6-8';
     is_deeply( [ get_ints($line, 1) ], [ (2, -4, 6, -8) ] );
+}
+
+# get_grouped_lines
+{
+    my $file = 't/test_get_grouped_lines';
+    open(my $fh, '<', $file) or die $!;
+
+    my @groups = get_grouped_lines($fh, 3);
+
+    use Data::Dumper;
+    warn Dumper(@groups);
+
+    cmp_ok( scalar @groups, '==', 4 );
+
+    my $g = $groups[-1];
+
+    cmp_ok( scalar @$g, '==', 1 );
+    cmp_ok( $g->[0], '==', 10000 );
+}
+
+# get_lines
+{
+    my $file = 't/test_get_lines';
+    open(my $fh, '<', $file) or die $!;
+
+    my @lines = get_lines($fh);
+
+    cmp_ok( scalar @lines, '==', 14 );
+}
+
+# get_nonempty_groups
+{
+    my $file = 't/test_get_lines';
+    open(my $fh, '<', $file) or die $!;
+
+    my @groups = get_nonempty_groups($fh);
+
+    cmp_ok( scalar @groups, '==', 5 );
+
+    my $g = $groups[0];
+
+    cmp_ok( scalar @$g, '==', 3 );
+    cmp_ok( $g->[0], '==', 1000 );
+
+    $g = $groups[-1];
+
+    cmp_ok( scalar @$g, '==', 1 );
+    cmp_ok( $g->[0], '==', 10000 );
 }
 
 done_testing();
