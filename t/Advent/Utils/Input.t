@@ -45,9 +45,6 @@ use Advent::Utils::Input qw(
 
     my @groups = get_grouped_lines($fh, 3);
 
-    use Data::Dumper;
-    warn Dumper(@groups);
-
     cmp_ok( scalar @groups, '==', 4 );
 
     my $g = $groups[-1];
