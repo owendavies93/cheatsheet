@@ -40,7 +40,7 @@ use Advent::Utils::Input qw(
 
 # get_grouped_lines
 {
-    my $file = 't/test_get_grouped_lines';
+    my $file = 't/data/test_get_grouped_lines';
     open(my $fh, '<', $file) or die $!;
 
     my @groups = get_grouped_lines($fh, 3);
@@ -55,7 +55,7 @@ use Advent::Utils::Input qw(
 
 # get_lines
 {
-    my $file = 't/test_get_lines';
+    my $file = 't/data/test_get_lines';
     open(my $fh, '<', $file) or die $!;
 
     my @lines = get_lines($fh);
@@ -65,7 +65,7 @@ use Advent::Utils::Input qw(
 
 # get_nonempty_groups
 {
-    my $file = 't/test_get_lines';
+    my $file = 't/data/test_get_lines';
     open(my $fh, '<', $file) or die $!;
 
     my @groups = get_nonempty_groups($fh);
