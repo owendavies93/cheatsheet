@@ -74,13 +74,13 @@ sub _generate_shortest_path {
     my $q = List::PriorityQueue->new();
     my $path = [];
 
-    $dist->{0} = 0;
+    $dist->{$start} = 0;
     $q->insert($start, 0);
 
     while (1) {
         my $c = $q->pop();
         if ($c == $end) { 
-            while ($c != 0) {
+            while ($c != $start) {
                 my $p = $prev->{$c};
                 push @$path, {
                     node   => $p,
