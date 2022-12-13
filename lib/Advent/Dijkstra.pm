@@ -79,6 +79,11 @@ sub _generate_shortest_path {
 
     while (1) {
         my $c = $q->pop();
+
+        if (!defined $c) {
+            return [];
+        }
+
         if ($c == $end) { 
             while ($c != $start) {
                 my $p = $prev->{$c};
