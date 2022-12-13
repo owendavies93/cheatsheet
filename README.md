@@ -113,6 +113,16 @@ chr(97) > 'Z'  # undef, and warns
 
 ## Data Manipulation
 
+### Parsing complex data
+
+In Advent of Code problems, it's probably safe to use `eval` to parse these sorts of inputs:
+
+```perl
+$input = '[1,[2,[3,[4,[5,6,7]]]],8,9]';
+$out = eval $input; # out is a nested data structure
+ref($out) # ARRAY
+```
+
 ### Lists
 
 [`List::AllUtils`](https://metacpan.org/pod/List::AllUtils) has nearly everything you ever need:
