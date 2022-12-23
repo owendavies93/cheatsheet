@@ -84,8 +84,8 @@ sub _generate_shortest_path {
             return [];
         }
 
-        if ($c == $end) { 
-            while ($c != $start) {
+        if ($c eq $end) {
+            while ($c ne $start) {
                 my $p = $prev->{$c};
                 push @$path, {
                     node   => $p,
