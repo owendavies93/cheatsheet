@@ -42,6 +42,7 @@ sub neighbours {
     my @ns = ();
     for my $dy (-1..1) {
         for my $dx (-1..1) {
+            next if $dx == 0 and $dy == 0;
             push @ns, [$x + $dx, $y + $dy];
         }
     }
