@@ -47,6 +47,11 @@ sub get_total_path_weight {
 #   'd' => '3'
 # },
 # assumes there is a valid path from start to end
+# 
+# end_func is a function that specifies if we're at the
+# end and should return the path. end_func will be
+# ignored if end is supplied
+#
 # set regen to overwrite any caching
 # returns a path of the form:
 # [
@@ -57,16 +62,26 @@ sub get_total_path_weight {
 sub _generate_shortest_path {
     my ($self, $opts) = @_;
     
-    for (qw(start end edge_list)) {
+    for (qw(start edge_list)) {
         croak "Need $_ option" unless defined $opts->{$_};
+    }
+
+    if (!defined $opts->{end} && !defined $opts->{end_func}) {
+        croak "Need end or end_func options";
     }
 
     if (defined $self->{path} && !defined $opts->{regen}) {
         return $self->{path};
     }
+
+    if (!defined $opts->{end_func} || defined $opts->{end}) {
+        $opts->{end_func} = sub {
+            my ($c, $opts) = @_;
+            return $c eq $opts->{end};
+        }
+    }
     
     my $start = $opts->{start};
-    my $end = $opts->{end};
     my $e = $opts->{edge_list};
 
     my $dist = {};
@@ -84,7 +99,7 @@ sub _generate_shortest_path {
             return [];
         }
 
-        if ($c eq $end) {
+        if ($opts->{end_func}->($c, $opts)) {
             while ($c ne $start) {
                 my $p = $prev->{$c};
                 push @$path, {
