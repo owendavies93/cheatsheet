@@ -12,6 +12,7 @@ use Advent::Utils::Input qw(
     get_ints
     get_lines
     get_nonempty_groups
+    split_line
 );
 
 # get_ints
@@ -81,6 +82,24 @@ use Advent::Utils::Input qw(
 
     cmp_ok( scalar @$g, '==', 1 );
     cmp_ok( $g->[0], '==', 10000 );
+}
+
+# split_line 
+{
+    my $line = "12345678";
+
+    my @split = split_line($line, 2);
+
+    cmp_ok( scalar @split, '==', 2 );
+    cmp_ok( $split[0], 'eq', '1234' );
+    cmp_ok( $split[1], 'eq', '5678' );
+
+    @split = split_line($line, 3);
+
+    cmp_ok( scalar @split, '==', 3 );
+    cmp_ok( $split[0], 'eq', '123' );
+    cmp_ok( $split[1], 'eq', '456' );
+    cmp_ok( $split[2], 'eq', '78' );
 }
 
 done_testing();

@@ -7,6 +7,7 @@ our @EXPORT_OK = qw(
     get_ints
     get_lines
     get_nonempty_groups
+    split_line
 );
 
 sub get_grouped_lines {
@@ -65,6 +66,28 @@ sub get_nonempty_groups {
     }
     push @groups, $curr;
     return @groups;
+}
+
+sub split_line {
+    my ($line, $num_parts) = @_;
+
+    my $len = length $line;
+    my $part_len = int(0.5 + ($len / $num_parts));
+    my $part = 0;
+    my @parts;
+    my @s = split //, $line;
+    while ($part < $num_parts) {
+        my $start = $part * $part_len;
+        my $end = ($part + 1) * $part_len - 1;
+
+        if ($end >= $len) {
+            $end-- while $end >= $len;
+        }
+
+        push @parts, join '', @s[$start..$end];
+        $part++;
+    }
+    return @parts;
 }
 
 1;
