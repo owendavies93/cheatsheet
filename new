@@ -23,10 +23,18 @@ use Mojo::Base -strict;
 
 use lib "../cheatsheet/lib";
 
+# use Advent::Dijkstra;
+# use Advent::Grid::Dense::Square;
+# use Advent::Grid::Dense::Diagonal;
+# use Advent::Grid::Sparse;
+use Advent::Utils::Input qw(get_grouped_lines get_ints get_lines get_nonempty_groups);
+use Advent::Utils::Transform qw(print_grid reverse_rows rotate_clockwise transpose);
+
 use Array::Utils qw(:all);
+use Data::Dumper;
 use List::AllUtils qw(:all);
 use Memoize;
-use POSIX qw(ceil floor round);
+use POSIX qw(ceil floor);
 
 my \$file = defined \$ARGV[0] ? \$ARGV[0] : 'inputs/day$DAY';
 \$file = "inputs/day$DAY-\$file" if \$file =~ /test/;
@@ -44,8 +52,8 @@ if [[ ! -d inputs ]]; then
 fi
 
 if [[ -n $YEAR ]]; then
-    aocdl -year $YEAR -day $DAY
+    aoc d -y $YEAR -d $DAY -I -i inputs/day$DAY
 else
-    aocdl -day $DAY
+    aoc d -d $DAY -I -i inputs/day$DAY
 fi
 
