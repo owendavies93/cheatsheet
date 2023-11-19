@@ -1,0 +1,143 @@
+#!/usr/bin/env perl
+
+use Mojo::Base -strict;
+
+use FindBin;
+use Getopt::Long;
+use Term::ANSIColor qw(:constants colored);
+use Time::HiRes qw(time);
+
+GetOptions(
+    "all|a"      => \my $all,
+    "day|d=i"    => \my $day,
+    "notime|t"   => \my $notime,
+    "nosubmit|s" => \my $nosubmit,
+    "year|y=i"   => \my $year,
+);
+
+my ($mday, $month, $cur_year) = (localtime(time))[3..5];
+
+# Set month and day to sensible values
+$month++;
+$cur_year += 1900;
+
+if (!defined $day && !defined $all) {
+    warn "No day provided. Trying to use current day.\n";
+
+    if ($month != 12) {
+        warn "Not in December. Aborting.\n";
+        exit;
+    }
+
+    if ($mday > 25) {
+        warn "Not in Advent. Aborting.\n";
+        exit;
+    }
+
+    $day = $mday;
+}
+
+if (!defined $year) {
+    warn "No year provided. Using current year.\n";
+    $year = $cur_year;
+}
+
+my $path = find_year($FindBin::Bin, "advent$year");
+
+if (defined $all) {
+    my $end = 25;
+    if (defined $day && $day < 25) {
+        $end = $day;
+    }
+
+    for (1..$end) {
+        say WHITE "Running $year day $_:";
+        run_part($_, $year, 1);
+        last if $_ == 25;
+        run_part($_, $year, 2);
+        print "\n";
+    }
+} else {
+    # TODO: automatically work out which part to run in the default case?
+    say WHITE "Running $year day $day:";
+    for (1..2) {
+        my $answer = run_part($day, $year, $_);
+        chomp $answer;
+
+        if ($answer eq '') {
+            say RED "No answer outputted. Skipping part $_.";
+            next;
+        }
+
+        submit_part($day, $year, $_, $answer) unless $nosubmit;
+    }
+}
+
+# TODO: break these out into libs
+sub run_part {
+    my ($day, $year, $part) = @_;
+    
+    my $t = time;
+    my $out = `perl $path/bin/day$day-$part.pl`;
+    my $t2 = time;
+    print WHITE "Part $part answer: ";
+    print GREEN $out;
+
+    unless ($notime) {
+        my $diff = int(($t2 - $t) * 1000);
+        print WHITE 'Runtime: ';
+        print GREEN "$diff ms\n";
+    }
+
+    return $out;
+}
+
+sub submit_part {
+    my ($day, $year, $part, $answer) = @_;
+    ASK:
+    say RESET "Do you want to submit this answer? [Y/n]";        
+    my $yes = <STDIN>;
+    chomp $yes;
+
+    if ($yes =~ /^[Nn]$/) {
+        warn "Not submitting part $part.\n";
+        return;
+    } elsif ($yes ne '' && $yes !~ /^[Yy]$/) {
+        warn "Please provide y or n.\n";
+        goto ASK;
+    }
+    
+    print WHITE "Submitting ";
+    say GREEN $answer;
+
+    my $res = `aoc submit -q -d $day $part $answer`;
+    say RESET "Response from AOC:";
+    format_aoc_response($res);
+}
+
+sub find_year {
+    my ($path, $dir) = @_;
+
+    if (-d "$path/$dir") {
+        return "$path/$dir";
+    } else {
+        return find_year("$path/..", $dir);
+    }
+}
+
+sub format_aoc_response {
+    my $res = shift;
+
+    my $colours = {
+        "You don't seem"     => 'red',
+        "That's the correct" => 'green',
+        "That's not"         => 'red',
+    };
+
+    for my $c (keys %$colours) {
+        if ($res =~ $c) {
+            say colored($res, $colours->{$c});
+            last;
+        }
+    }
+}
