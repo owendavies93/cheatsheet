@@ -69,7 +69,9 @@ if (defined $all) {
             next;
         }
 
-        submit_part($day, $year, $_, $answer) unless $nosubmit;
+        my $to_submit = (split "\n", $answer)[-1];
+
+        submit_part($day, $year, $_, $to_submit) unless $nosubmit;
     }
 }
 
