@@ -2,10 +2,12 @@
 
 use Mojo::Base -strict;
 
-use FindBin;
+use lib "../cheatsheet/lib";
+
 use Getopt::Long;
-use Term::ANSIColor qw(:constants colored);
-use Time::HiRes qw(time);
+use Term::ANSIColor qw(:constants);
+
+use Advent::Utils::Problem qw(run_part submit_part);
 
 GetOptions(
     "all|a"      => \my $all,
@@ -42,8 +44,6 @@ if (!defined $year) {
     $year = $cur_year;
 }
 
-my $path = find_year($FindBin::Bin, "advent$year");
-
 if (defined $all) {
     my $end = 25;
     if (defined $day && $day < 25) {
@@ -63,7 +63,7 @@ if (defined $all) {
     # TODO: automatically work out which part to run in the default case?
     say WHITE "Running $year day $day:";
     for (1..2) {
-        my $answer = run_part($day, $year, $_);
+        my $answer = run_part($year, $day, $_);
         chomp $answer;
 
         if ($answer eq '') {
@@ -73,75 +73,7 @@ if (defined $all) {
 
         my $to_submit = (split "\n", $answer)[-1];
 
-        submit_part($day, $year, $_, $to_submit) unless $nosubmit;
+        submit_part($year, $day, $_, $to_submit) unless $nosubmit;
     }
 }
 
-# TODO: break these out into libs
-sub run_part {
-    my ($day, $year, $part) = @_;
-    
-    my $t = time;
-    my $out = `perl $path/bin/day$day-$part.pl`;
-    my $t2 = time;
-    print WHITE "Part $part answer: ";
-    print GREEN $out;
-
-    unless ($notime) {
-        my $diff = int(($t2 - $t) * 1000);
-        print WHITE 'Runtime: ';
-        print GREEN "$diff ms\n";
-    }
-
-    return $out;
-}
-
-sub submit_part {
-    my ($day, $year, $part, $answer) = @_;
-    ASK:
-    say RESET "Do you want to submit this answer? [Y/n]";        
-    my $yes = <STDIN>;
-    chomp $yes;
-
-    if ($yes =~ /^[Nn]$/) {
-        warn "Not submitting part $part.\n";
-        return;
-    } elsif ($yes ne '' && $yes !~ /^[Yy]$/) {
-        warn "Please provide y or n.\n";
-        goto ASK;
-    }
-    
-    print WHITE "Submitting ";
-    say GREEN $answer;
-
-    my $res = `aoc submit -q -d $day $part $answer`;
-    say RESET "Response from AOC:";
-    format_aoc_response($res);
-}
-
-sub find_year {
-    my ($path, $dir) = @_;
-
-    if (-d "$path/$dir") {
-        return "$path/$dir";
-    } else {
-        return find_year("$path/..", $dir);
-    }
-}
-
-sub format_aoc_response {
-    my $res = shift;
-
-    my $colours = {
-        "You don't seem"     => 'red',
-        "That's the correct" => 'green',
-        "That's not"         => 'red',
-    };
-
-    for my $c (keys %$colours) {
-        if ($res =~ $c) {
-            say colored($res, $colours->{$c});
-            last;
-        }
-    }
-}
