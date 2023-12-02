@@ -48,6 +48,8 @@ if (defined $all) {
     my $end = 25;
     if (defined $day && $day < 25) {
         $end = $day;
+    } elsif ($month eq 12) {
+        $end = $mday;
     }
 
     for (1..$end) {
