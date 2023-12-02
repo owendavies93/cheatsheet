@@ -28,6 +28,7 @@ use lib "../cheatsheet/lib";
 # use Advent::Grid::Dense::Diagonal;
 # use Advent::Grid::Sparse;
 use Advent::Utils::Input qw(get_grouped_lines get_ints get_lines get_nonempty_groups);
+use Advent::Utils::Problem qw(submit);
 use Advent::Utils::Transform qw(print_grid reverse_rows rotate_clockwise transpose);
 
 use Array::Utils qw(:all);
@@ -39,8 +40,15 @@ use POSIX qw(ceil floor);
 my \$file = defined \$ARGV[0] ? \$ARGV[0] : 'inputs/day$DAY';
 \$file = "inputs/day$DAY-\$file" if \$file =~ /test/;
 open(my \$fh, '<', \$file) or die \$!;
+my \$total = 0;
 while (<\$fh>) {
     chomp;
+}
+
+if (\$file !~ /test/) {
+    submit(\$total);
+} else {
+    say \$total;
 }
 EOF
 chmod +x bin/day$DAY-$i.pl
