@@ -54,9 +54,9 @@ if (defined $all) {
 
     for (1..$end) {
         say BLUE "Running $year day $_:";
-        run_part($_, $year, 1);
+        run_part($year, $_, 1);
         last if $_ == 25;
-        run_part($_, $year, 2);
+        run_part($year, $_, 2);
         print "\n";
     }
 } else {
