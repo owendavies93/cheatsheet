@@ -1,0 +1,12 @@
+#!/usr/bin/env perl
+
+use Mojo::Base -strict;
+
+my ($d, $m, $y) = (localtime(time))[3..5];
+
+$y += 1900;
+
+my $part = defined $ARGV[0] ? $ARGV[0] : 1;
+my $file = defined $ARGV[1] ? $ARGV[1] : '';
+
+print `cd /home/owen/advent/advent$y && perl bin/day$d-$part.pl $file`
