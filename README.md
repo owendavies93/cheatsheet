@@ -90,7 +90,8 @@ sprintf("%08b", $decimal_number); # '00001001'
 
 ## Strings
 
-`substr $string $to $from` does substrings, omit the last argument to go to the end.
+`substr $string $offset $length` does substrings, omit the last argument to go to the end.
+Minus arguments go back from the end of the string.
 
 ### Characters
 
