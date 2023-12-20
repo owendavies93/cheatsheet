@@ -2,8 +2,8 @@ package Advent::Dijkstra;
 
 use Mojo::Base -strict;
 
+use Array::Heap::PriorityQueue::Numeric;
 use Carp;
-use List::PriorityQueue;
 use List::Util qw(sum);
 
 sub new {
@@ -86,14 +86,14 @@ sub _generate_shortest_path {
 
     my $dist = {};
     my $prev = {};
-    my $q = List::PriorityQueue->new();
+    my $q = Array::Heap::PriorityQueue::Numeric->new;
     my $path = [];
 
     $dist->{$start} = 0;
-    $q->insert($start, 0);
+    $q->add($start, 0);
 
     while (1) {
-        my $c = $q->pop();
+        my $c = $q->get();
 
         if (!defined $c) {
             return [];
@@ -116,7 +116,7 @@ sub _generate_shortest_path {
             my $new_dist = $dist->{$c} + $e->{$c}->{$n};
             if (!defined $dist->{$n} || $new_dist < $dist->{$c}) {
                 $dist->{$n} = $new_dist;
-                $q->insert($n, $new_dist);
+                $q->add($n, $new_dist);
                 $prev->{$n} = $c;
             }
         }
