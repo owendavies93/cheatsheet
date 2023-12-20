@@ -224,6 +224,34 @@ See [2021 Day 25](https://github.com/sirgraystar/advent2021/blob/main/bin/day25.
 
 There's a generic implementation of this in [Advent::Grid::Sparse](https://github.com/sirgraystar/cheatsheet/blob/main/lib/Advent/Grid/Sparse.pm).Often it won't be suitable due to problems requiring generic manipulation of values within the grid, but it works for Cellula Automata type problems and problems where you simply need to track a set of points.
 
+### Queues
+
+Normal perl lists work well as simple queues.
+
+```perl
+my @q = (1,2,3);
+while (@q) { # scalar @q == 0
+    my $head = shift @q;
+    if (...) {
+        my $new = 4;
+        push @q, $new;
+    }
+}
+```
+
+For a priority queue, use Array::Heap::PriorityQueue::Numeric - it's the fastest one I've found.
+
+```perl
+my $q = Array::Heap::PriorityQueue::Numeric->new;
+$q->add(1, 100);
+while ($q->size()) {
+    my $head = $q->get();
+    if (...) {
+        $q->add(2, 1); # will be at the head
+    }
+}
+```
+
 ## Performance
 
 ### Memoisation
