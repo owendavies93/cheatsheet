@@ -7,6 +7,7 @@ use lib "../cheatsheet/lib";
 use Const::Fast;
 use Getopt::Long;
 use Term::ANSIColor qw(:constants);
+use Text::ASCIITable;
 
 use Advent::Utils::Problem qw(run_part submit_part);
 
@@ -55,13 +56,35 @@ if (defined $all) {
         $end = $mday;
     }
 
+    my $runtimes = {};
+
     for (1..$end) {
         say BLUE "Running $year day $_:";
         my ($o, $t) = run_part($year, $_, 1, $TIMEOUT);
         last if $_ == 25;
         my ($o2, $t2) = run_part($year, $_, 2, $TIMEOUT);
         print "\n";
+
+        $runtimes->{$_} = {
+            t1 => $t,
+            t2 => $t2,
+        };
     }
+
+    my $t = Text::ASCIITable->new({ headingText => 'Runtimes' });
+    $t->setCols('Day', 'Part 1 Runtime', 'Part 2 Runtime');
+    for my $d (sort { $a <=> $b } keys %$runtimes) {
+        my $t1 = $runtimes->{$d}->{t1};
+        my $t2 = $runtimes->{$d}->{t2};
+
+        $t1 = $t1 == -1 ? "> $TIMEOUT secs" : $t1 . ' ms';
+        $t2 = $t2 == -1 ? "> $TIMEOUT secs" : $t2 . ' ms';
+
+        $t->addRow($d, $t1, $t2);
+    }
+
+    print "\n";
+    say $t;
 } else {
     # TODO: automatically work out which part to run in the default case?
     say BLUE "Running $year day $day:";
