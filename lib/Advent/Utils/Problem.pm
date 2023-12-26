@@ -4,6 +4,7 @@ use Mojo::Base 'Exporter';
 
 use Cwd;
 use FindBin;
+use IPC::Run qw(run timeout);
 use Term::ANSIColor qw(:constants colored);
 use Time::HiRes qw(time);
 
@@ -46,21 +47,30 @@ sub _find_year {
 }
 
 sub run_part {
-    my ($year, $day, $part) = @_;
+    my ($year, $day, $part, $timeout) = @_;
 
     my $path = _find_year($FindBin::Bin, "advent$year");
 
     my $t = time;
-    my $out = `perl $path/bin/day$day-$part.pl`;
-    my $t2 = time;
-    print WHITE "Part $part answer: ";
-    print GREEN $out;
+    my $out;
+    eval {
+        run ['perl', "$path/bin/day$day-$part.pl"], \undef, \$out, timeout($timeout);
+    };
+    if ($@) {
+        die $@ if $@ !~ /^IPC::Run: timeout/;
+        say RED "Runtime over $timeout seconds, aborting.";
+        return ("", -1);
+    } else {
+        my $t2 = time;
+        print WHITE "Part $part answer: ";
+        print GREEN $out;
 
-    my $diff = int(($t2 - $t) * 1000);
-    print WHITE 'Runtime: ';
-    print GREEN "$diff ms\n";
+        my $diff = int(($t2 - $t) * 1000);
+        print WHITE 'Runtime: ';
+        print GREEN "$diff ms\n";
 
-    return $out;
+        return ($out, $diff);
+    }
 }
 
 # Assumes standard filename formats and dir structures
