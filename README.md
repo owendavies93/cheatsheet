@@ -282,3 +282,77 @@ $d->get_shortest_path_length($opts);
 $d->get_total_path_weight($opts);
 ```
 
+### BFS
+
+Something like this works well for BFS shortest path between two nodes. Usually
+the trick is to implement and problem specific logic in the adjacency check.
+
+```perl
+sub bfs {
+    my ($start, $end) = @_;
+    my @q;
+    my $seen;
+    my $st = {};
+    push @q, $start;
+    $seen->{$start} = 1;
+
+    while (@q) {
+        my $c = shift @queue;
+        my $adjs = get_adjs($c); # Implement this
+        for my $adj (@$adjs) {
+            next if $seen->{$adj};
+            $st->{$adj}->{prev} = $c;
+            if ($adj eq $end) {
+                my @path;
+                push @path, $end;
+                my $prev = $st->{$end}->{prev};
+                while (1) {
+                    if ($prev eq $start) {
+                        push @path, $start;
+                        last;
+                    }
+                    push @path, $prev;
+                    $prev = $st->{$prev}->{prev};
+                }
+                return reverse @path;
+            }
+            else {
+                push @queue, $adj;
+            }
+            $seen->{$adj} = 1;
+        }
+    }
+    die "No path";
+}
+```
+
+### DFS
+
+Same thing but DFS. Useful when the graph might have dead ends, or if we want
+the longest path (rare, but came up in 2023).
+
+```perl
+my $seen = {};
+my $end = # TODO;
+sub dfs {
+    my $cur = shift;
+    return 0 if $cur eq $end;
+
+    $seen->{$cur} = 1;
+    my $max_path;
+    my $adjs = get_adjs($cur);
+    for my $adj (@$adjs) {
+        next if $seen->{$adj};
+        my $sub = dfs($adj);
+        next unless defined $sub; # If there's no path found in the recursive case
+        # Add on the current distance, or the weight if there is one
+        $sub++;
+        # my $dist = get_dist($cur, $adj);
+        # $sub += $dist;
+        $max_path = $sub if !defined $max_path || $sub > $max_path;
+    }
+
+    delete $seen->{$cur};
+    return $max_path;
+}
+```
