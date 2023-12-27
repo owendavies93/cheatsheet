@@ -61,7 +61,10 @@ if (defined $all) {
     for (1..$end) {
         say BLUE "Running $year day $_:";
         my ($o, $t) = run_part($year, $_, 1, $TIMEOUT);
-        last if $_ == 25;
+        if ($_ == 25) {
+            $runtimes->{$_} = { t1 => $t };
+            last;
+        }
         my ($o2, $t2) = run_part($year, $_, 2, $TIMEOUT);
         print "\n";
 
@@ -75,10 +78,12 @@ if (defined $all) {
     $t->setCols('Day', 'Part 1 Runtime', 'Part 2 Runtime');
     for my $d (sort { $a <=> $b } keys %$runtimes) {
         my $t1 = $runtimes->{$d}->{t1};
-        my $t2 = $runtimes->{$d}->{t2};
-
         $t1 = $t1 == -1 ? "> $TIMEOUT secs" : $t1 . ' ms';
-        $t2 = $t2 == -1 ? "> $TIMEOUT secs" : $t2 . ' ms';
+        my $t2 = '-';
+        if ($d < 25) {
+            $t2 = $runtimes->{$d}->{t2};
+            $t2 = $t2 == -1 ? "> $TIMEOUT secs" : $t2 . ' ms';
+        }
 
         $t->addRow($d, $t1, $t2);
     }
