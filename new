@@ -27,6 +27,7 @@ use lib "../cheatsheet/lib";
 # use Advent::Grid::Dense::Square;
 # use Advent::Grid::Dense::Diagonal;
 # use Advent::Grid::Sparse;
+use Advent::Grid::Utils qw(get_grid d4 d8 d_diag);
 use Advent::Utils::Input qw(get_grouped_lines get_ints get_lines get_nonempty_groups);
 use Advent::Utils::Problem qw(submit);
 use Advent::Utils::Transform qw(print_grid reverse_rows rotate_clockwise transpose);
@@ -44,6 +45,8 @@ my \$total = 0;
 while (<\$fh>) {
     chomp;
 }
+
+# my (\$grid, \$width, \$height) = get_grid(\$fh);
 
 if (\$file !~ /test/) {
     submit(\$total);
